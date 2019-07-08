@@ -6,8 +6,12 @@ import datetime
 import self_check
 # from msg import parser
 # from cv import command_wrapper
-import fractal_path_finder as fpf
-from cv import roto
+#import fractal_path_finder as fpf
+#from cv import roto
+
+from robot import Robot
+
+robot = Robot()
 
 app = flask.Flask(__name__)
 messages = []
@@ -33,7 +37,8 @@ path = []
 # r = roto.Roto()
 
 def send_message(author, message):
-    messages.append(f"{str(author)} [" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "]: " + str(message))
+    pass
+#    messages.append(f"{str(author)} [" + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "]: " + str(message))
 
 '''Основные адреса'''
 @app.route('/')
@@ -58,6 +63,11 @@ def auto():
     # return flask.render_template("auto.html")
     return flask.redirect('/')
 
+@app.route('/test')
+def test():
+    x = robot.check_status()
+    return flask.jsonify(x)
+    
 @app.route('/prefs')
 def prefs():
     # return flask.render_template("prefs.html")

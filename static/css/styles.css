@@ -2,7 +2,7 @@
 
 body { 
   height: 99vh;
-  overflow: hidden; 
+  //overflow: hidden; 
   font-family: 'Roboto', sans-serif;
   margin-top: 0px;
   margin-left: 0px;
@@ -190,3 +190,13 @@ button {
   -webkit-animation-name: 'fadeIn';
   animation-name: 'fadeIn';
 }
+
+
+
+
+
+/*
+.robot-information {
+  display: none;
+}
+*/
