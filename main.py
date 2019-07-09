@@ -131,20 +131,28 @@ def send_next_point():
 @app.route('/movecam', methods=['POST'])
 def move_cam():
     direction = int(flask.request.form['mcdir'])
-    resp = -1
+    
+    #resp = -1
+    angle_turn = 10
+    
+    print(direction)
     if direction == 0:   # вверх
-        # r.move(150, 180)
-        resp = 0
+        robot.set_angleZ_OPU(angle_turn)
+        #resp = 0
     elif direction == 1: # вниз
-        # r.move(100, 180)
-        resp = 1
+        robot.set_angleZ_OPU(-angle_turn)
+        #resp = 1
     elif direction == 2: # влево
-        # r.moveZ(40)
-        resp = 2
+         robot.set_angleY_OPU(-angle_turn)
+         #resp = 2
     elif direction == 3: # вправо
+         robot.set_angleY_OPU(angle_turn)
         # r.moveZ(-40)
-        resp = 3
-    return 'Moved in ' + str(resp)
+         #resp = 3
+        
+    #print(robot.get_angle_OPU())
+    #return 'Moved in ' + str(resp)
+    return 'Moved in '
 
 if __name__ == "__main__":
     scheme = self_check.load_scheme()

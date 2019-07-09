@@ -45,12 +45,13 @@
                 if (xmlHttp.readyState == 4)
                     {
                         let response = xmlHttp.responseText;
-                        console.log(response)
+                        console.log(response);
                     }
             }
             xmlHttp.open("POST", "/movecam", true); // true for asynchronous 
             xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xmlHttp.send(mcdir);
+            //alert("end");
         }
     </script>
 </body>

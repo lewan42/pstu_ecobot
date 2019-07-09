@@ -8,9 +8,17 @@ Created on Wed Jul  3 10:24:04 2019
 SUCCESS = 0
 FAIL = 1
 
+ANGLE_VIEW = 0 # viewing angle camera
+MAX_ANGLE_OPY_LEFT = -90;
+MAX_ANGLE_OPY_RIGHT = 90;
+
 class Robot:
     
     def __init__(self):
+        self.angleY_OPU = 0
+        self.angleZ_OPU = 0
+        self.pos_x = 0.0
+        self.pos_y = 0.0
         return
         
     def drive(self, speed):
@@ -27,10 +35,14 @@ class Robot:
                 'route':[[0.0, 0.0], [1.1, 1.4], [2.0, 2.0]]}
         
     def drive_forward_on_range(self, rangeX, speed):
-        return {'state':SUCCESS, 'coords':[0.0,  1.0]}
+        self.pos_x += rangeX
+        print("forward "+ str(self.pos_x))
+        return {'state':SUCCESS, 'coords':[self.pos_x,  1.0]}
         
     def drive_back_on_range(self, rangeX, speed):
-        return [0.0, -1.0]
+        self.pos_x -= rangeX 
+        print("back "+str(self.pos_x))
+        return {'state':SUCCESS, 'coords':[self.pos_x,  1.0]}
         
     def turn_wheels(self, angle = 14.5):
         return {'state': SUCCESS,
@@ -78,6 +90,33 @@ class Robot:
     def get_arrival_time(self):
         return {'state': SUCCESS, 'arrival_time': 15.20}
         
+    def get_angleZ_OPU(self):
+        return {'state': SUCCESS, 'angleZ_OPU': self.angleZ_OPU}
+        
+    def set_angleZ_OPU(self, angle):
+        try:
+            self.angleZ_OPU += angle
+            assert -45 < self.angleZ_OPU < 45
+            print ("angleZ " + str(self.angleZ_OPU), SUCCESS)
+            return (self.angleZ_OPU, SUCCESS)
+        except AssertionError:
+            print ("angleZ " + str(self.angleZ_OPU), FAIL)
+            return (self.angleZ_OPU, FAIL)
+        
+    def get_angleY_OPU(self):
+        return {'state': SUCCESS, 'angleY_OPU': self.angleY_OPU}
+        
+    def set_angleY_OPU(self, angle):
+        try:
+            self.angleY_OPU += angle
+            assert -90 < self.angleY_OPU < 90
+            print ("angleY " + str(self.angleY_OPU), SUCCESS)
+            return (self.angleY_OPU, SUCCESS)
+        except AssertionError:
+            print ("angleY " + str(self.angleY_OPU), FAIL)
+            return (self.angleY_OPU, FAIL)
+
+            
     def check_wheels(self):
         return True
         
