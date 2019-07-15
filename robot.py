@@ -4,6 +4,7 @@ Created on Wed Jul  3 10:24:04 2019
 
 @author: student
 """
+import fractal_path_finder as fpf
 
 SUCCESS = 0
 FAIL = 1
@@ -30,13 +31,13 @@ class Robot:
         speed = 0):
         return
         
-    def calc_route(self, pointX = 0, pointY = 0, options = {}):
+    def calc_route(self, pointXY, options = {}):
         return {'state':SUCCESS, 
                 'route':[[0.0, 0.0], [1.1, 1.4], [2.0, 2.0]]}
         
     def drive_forward_on_range(self, rangeX, speed):
         self.pos_x += rangeX
-        print("forward "+ str(self.pos_x))
+        #print("forward "+ str(self.pos_x))
         return {'state':SUCCESS, 'coords':[self.pos_x,  1.0]}
         
     def drive_back_on_range(self, rangeX, speed):
@@ -97,11 +98,10 @@ class Robot:
         try:
             self.angleZ_OPU += angle
             assert -45 < self.angleZ_OPU < 45
-            print ("angleZ " + str(self.angleZ_OPU), SUCCESS)
-            return (self.angleZ_OPU, SUCCESS)
+            return {'state': SUCCESS, 'angleZ_OPU': self.angleZ_OPU}
         except AssertionError:
-            print ("angleZ " + str(self.angleZ_OPU), FAIL)
-            return (self.angleZ_OPU, FAIL)
+            self.angleZ_OPU -= angle
+            return {'state': FAIL, 'angleZ_OPU': self.angleZ_OPU}
         
     def get_angleY_OPU(self):
         return {'state': SUCCESS, 'angleY_OPU': self.angleY_OPU}
@@ -109,12 +109,11 @@ class Robot:
     def set_angleY_OPU(self, angle):
         try:
             self.angleY_OPU += angle
-            assert -90 < self.angleY_OPU < 90
-            print ("angleY " + str(self.angleY_OPU), SUCCESS)
-            return (self.angleY_OPU, SUCCESS)
+            assert -90 <= self.angleY_OPU <= 90
+            return {'state': SUCCESS, 'angleY_OPU': self.angleY_OPU}
         except AssertionError:
-            print ("angleY " + str(self.angleY_OPU), FAIL)
-            return (self.angleY_OPU, FAIL)
+            self.angleY_OPU -= angle
+            return {'state': FAIL, 'angleY_OPU': self.angleY_OPU}
 
             
     def check_wheels(self):

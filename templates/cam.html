@@ -4,6 +4,9 @@
     <meta charset="utf-8">
     <title>Bot Camera</title>
 
+    <!-- jQuery latest version -->
+    <script src ="https://code.jquery.com/jquery-latest.min.js"></script>
+
     <!-- CSS -->
     <link href="/static/css/styles.css" rel="stylesheet">
     <script type="text/javascript" src='/static/map.js' charset="utf-8"></script>
@@ -31,28 +34,44 @@
         </div>
         <div style="position:absolute; bottom: 2%; width: 100%; text-align: center;">
             <button id="cam-down" onclick="moveCam(1)">Вниз</button>
+            <button onclick="drive(5)">drive +5</button>
+            <button onclick="drive(-5)">drive -5</button>
+            
         </div>
     </div>
+
     <div class="container"></div>
     <script>
         setMapHeight();
 
-        function moveCam(direction)
+
+        function drive(x)
         {
-            let mcdir = 'mcdir='+direction;
-            let xmlHttp = new XMLHttpRequest();
-            xmlHttp.onreadystatechange = function() { 
-                if (xmlHttp.readyState == 4)
-                    {
-                        let response = xmlHttp.responseText;
-                        console.log(response);
-                    }
-            }
-            xmlHttp.open("POST", "/movecam", true); // true for asynchronous 
-            xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-            xmlHttp.send(mcdir);
-            //alert("end");
+            $.ajax({
+              type: 'POST',
+              url: "/movedrive",
+              contentType: "application/x-www-form-urlencoded",
+              data: {"range": x},
+              success: function(response) {
+                console.log(response)
+              }
+            });
         }
+
+        function moveCam(dir)
+        {
+            $.ajax({
+              type: 'POST',
+              url: "/movecam",
+              contentType: "application/x-www-form-urlencoded",
+              data: {"dir": dir},
+              success: function(response) {
+                console.log(response)
+              }
+            });
+        }
+
+
     </script>
 </body>
 </html>

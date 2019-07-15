@@ -78,7 +78,7 @@ function setMapImage(mapfile)
 }
 
 function loadData(basicW, basicH, data)
-  {
+{
     // document.addEventListener("click", printMousePos);
     var layer = document.getElementsByClassName("object-layer")[0];
     // container.style.width = (basicW / basicH) * container.clientHeight + "px";
@@ -106,19 +106,36 @@ function loadData(basicW, basicH, data)
     });
 }
 
-function getPath()
+function getPath2()
 {
     let objectName = document.getElementById('route-to').value;    
     let xmlHttp = new XMLHttpRequest();
     xmlHttp.onreadystatechange = function() { 
         if (xmlHttp.readyState == 4)
             {
-                let points = JSON.parse(xmlHttp.responseText);
+                //let points = JSON.parse(xmlHttp.responseText);
+                let points = xmlHttp.responseText;
+                //let arr = [[1,1], [2,5], [3,6], [5,6], [7,7]]
+                console.log("points " + points); 
                 drawPath(points);
             }
     }
-    xmlHttp.open("GET", '/setroute?name='+objectName+'', true); // true for asynchronous 
+    console.log(objectName);
+    xmlHttp.open("POST", '/setroute?name='+objectName+'', true); // true for asynchronous 
     xmlHttp.send();
+}
+
+function getPath()
+{
+            $.ajax({
+              type: 'POST',
+              url: "/setroute2",
+              contentType: "application/x-www-form-urlencoded",
+              data: {"route_to": document.getElementById('route-to').value},
+              success: function(response) {
+                console.log(response)
+              }
+            });
 }
 
 // function getPathPromise(objectName)

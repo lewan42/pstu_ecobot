@@ -4,12 +4,14 @@
 import flask
 import datetime
 import self_check
+
 # from msg import parser
 # from cv import command_wrapper
-#import fractal_path_finder as fpf
+import fractal_path_finder as fpf
 #from cv import roto
 
 from robot import Robot
+from flask import request
 
 robot = Robot()
 
@@ -88,7 +90,23 @@ def process_message():
     # send_message('Bot', answer)
     return flask.redirect('/msg')
 
-@app.route('/setroute', methods=['GET'])
+@app.route('/setroute2', methods=['POST'])
+def process_route2():
+   
+    print("start")
+    #route_to = flask.request.args.get('name')
+    route_to = int(flask.request.form['route_to'])
+    print(route_to)
+    
+    # route_from = flask.request.form['route_from']
+    # route_to = flask.request.form['route_to']
+    route_to = ''
+    path = robot.calc_route(route_to)
+
+    return flask.jsonify(path)
+    
+    
+@app.route('/setroute', methods=['POST'])
 def process_route():
     # route_to = flask.request.args.get['route_to']
     route_to = flask.request.args.get('name')
@@ -106,9 +124,9 @@ def process_route():
     # TODO Remove, for testing only
     start_point = (475, 455)
     # start_point = (350, 500)
-    #end_point = (1539, 743)
-    # fpf.passable_color = (77, 73, 41, 255)
-    fpf.passable_color = (255, 255, 255, 255)
+    end_point = (1539, 743)
+    fpf.passable_color = (77, 73, 41, 255)
+    #fpf.passable_color = (255, 255, 255, 255)
     global path
     path = fpf.calc_path('./static/img/map1.png', start_point, end_point)
     print(len(path))
@@ -127,29 +145,42 @@ def send_next_point():
             return str(path[-1])
     else:
         return (0,0)
+        
+    
+    
+@app.route('/movedrive', methods=['POST'])
+def move_drive():
+   
+    rangeX = float(request.form['range'])
+    print(rangeX)
+    speed = 10;
+    if rangeX >= 0: 
+       return flask.jsonify(robot.drive_forward_on_range(rangeX, speed))
+    else: return flask.jsonify(robot.drive_back_on_range(rangeX, speed))
+     
+
 
 @app.route('/movecam', methods=['POST'])
 def move_cam():
-    direction = int(flask.request.form['mcdir'])
+    direction = int(flask.request.form['dir'])
     
     #resp = -1
     angle_turn = 10
     
     print(direction)
     if direction == 0:   # вверх
-        robot.set_angleZ_OPU(angle_turn)
+        return flask.jsonify(robot.set_angleZ_OPU(angle_turn))
         #resp = 0
     elif direction == 1: # вниз
-        robot.set_angleZ_OPU(-angle_turn)
+        return flask.jsonify(robot.set_angleZ_OPU(-angle_turn))
         #resp = 1
     elif direction == 2: # влево
-         robot.set_angleY_OPU(-angle_turn)
+         return flask.jsonify(robot.set_angleY_OPU(-angle_turn))
          #resp = 2
     elif direction == 3: # вправо
-         robot.set_angleY_OPU(angle_turn)
+         return flask.jsonify(robot.set_angleY_OPU(angle_turn))
         # r.moveZ(-40)
          #resp = 3
-        
     #print(robot.get_angle_OPU())
     #return 'Moved in ' + str(resp)
     return 'Moved in '
