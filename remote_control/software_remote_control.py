@@ -1,4 +1,4 @@
-class Remote_controller:
+class Software_remote_control:
     
     def __init__():
         return
