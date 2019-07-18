@@ -1,8 +1,10 @@
 from constants import SUCCESS 
 from constants import FAIL 
 
-class BasicTurningDevice:
+class PivotDevice:
     def __init__(self):
+        self.angleY_OPU = 0
+        self.angleZ_OPU = 0
         pass
         
     def get_angleZ_OPU(self):

@@ -4,24 +4,21 @@ Created on Wed Jul  3 10:24:04 2019
 
 @author: student
 """
-import fractal_path_finder as fpf
-import drive_sensors as ds
+from constants import SUCCESS 
+from intelligent_integrated_control_system.software_intelligent_integrated_control_system import SoftwareIntelligentInregratedControlSystem
+from intelligent_integrated_control_system.execution_universal_unit import ExecutionUniversalUnit
+from chassis.drive_sensors import DriveSensors
+from technical_vision.pivot_device import PivotDevice
 
-#transfer to variable.py
-#SUCCESS = 0
-#FAIL = 1
-#ANGLE_VIEW = 0 # viewing angle camera
-#MAX_ANGLE_OPY_LEFT = -90;
-#MAX_ANGLE_OPY_RIGHT = 90;
+software_intelligent_integrated_control_system = SoftwareIntelligentInregratedControlSystem()
+execution_universal_unit = ExecutionUniversalUnit(10.5, 12.6)
+drive_sensors = DriveSensors()
+pivot_device = PivotDevice()
 
 class Robot:
     
     def __init__(self):
-        self.angleY_OPU = 0
-        self.angleZ_OPU = 0
-        self.pos_x = 0.0
-        self.pos_y = 0.0
-        return
+        pass
         
 #transfer to driver_sensors.py
     #def drive(self, speed):
@@ -33,20 +30,14 @@ class Robot:
       #  speed = 0):
        # return
         
-    #def drive_forward_on_range(self, rangeX, speed):
-     #   self.pos_x += rangeX
-        #print("forward "+ str(self.pos_x))
-      #  return {'state':SUCCESS, 'coords':[self.pos_x,  1.0]}
+    def drive_forward_on_range(self, rangeX, speed):
+        return drive_sensors.drive_forward_on_range(rangeX, speed)
         
-    #def drive_back_on_range(self, rangeX, speed):
-     #   self.pos_x -= rangeX 
-      #  print("back "+str(self.pos_x))
-       # return {'state':SUCCESS, 'coords':[self.pos_x,  1.0]}
+    def drive_back_on_range(self, rangeX, speed):
+        return drive_sensors.drive_back_on_range(rangeX, speed)
         
-        
-   # def calc_route(self, pointXY, options = {}):
-    #    return {'state':SUCCESS, 
-     #           'route':[[0.0, 0.0], [1.1, 1.4], [2.0, 2.0]]}
+    def calc_route(self, pointXY, options = {}):
+        return execution_universal_unit.calc_route(pointXY)
         
       #TRANSFER TO BLOCK_RUDDER_CONTROL  
    # def turn_wheels(self, angle = 14.5):
@@ -71,15 +62,9 @@ class Robot:
    # def get_count_range_to_pointXY(self,pointX, pointY):
     #    return {'state': SUCCESS,'range_to_point': 9.57}
      
-     #to software_iisc
-   # def check_status(self):
-    #    return {'state': SUCCESS,
-    #            'position':self.get_position(),
-     #           'speed' : self.get_cur_speed(),
-      #          'time': self.get_cur_time(),
-       #         'camera_zoom' : self.get_camera_zoom(),
-        #        'angle_wheels': self.get_angle_wheels(),
-         #       'test':12345}
+     
+    def check_status(self):
+        return software_intelligent_integrated_control_system.check_status_software_intelligent_integrated_control_system()
         
         #to sensors drives
     #def get_cur_speed(self):
@@ -106,26 +91,14 @@ class Robot:
   #  def get_angleZ_OPU(self):
    #     return {'state': SUCCESS, 'angleZ_OPU': self.angleZ_OPU}
         
-   # def set_angleZ_OPU(self, angle):
-    #    try:
-     #       self.angleZ_OPU += angle
-      #      assert -45 < self.angleZ_OPU < 45
-       #     return {'state': SUCCESS, 'angleZ_OPU': self.angleZ_OPU}
-       # except AssertionError:
-        #    self.angleZ_OPU -= angle
-         #   return {'state': FAIL, 'angleZ_OPU': self.angleZ_OPU}
+    def set_angleZ_OPU(self, angle):
+        return pivot_device.set_angleZ_OPU(angle) 
         
     #def get_angleY_OPU(self):
      #   return {'state': SUCCESS, 'angleY_OPU': self.angleY_OPU}
         
-    #def set_angleY_OPU(self, angle):
-     #   try:
-      #      self.angleY_OPU += angle
-       #     assert -90 <= self.angleY_OPU <= 90
-        #    return {'state': SUCCESS, 'angleY_OPU': self.angleY_OPU}
-        #except AssertionError:
-         #   self.angleY_OPU -= angle
-          #  return {'state': FAIL, 'angleY_OPU': self.angleY_OPU}
+    def set_angleY_OPU(self, angle):
+       return pivot_device.set_angleY_OPU(angle)
 
      #to block rudder control       
   #  def check_wheels(self):

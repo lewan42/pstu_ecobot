@@ -3,6 +3,10 @@ from constants import SUCCESS
 class DriveSensors:
     
     def __init__(self):
+        self.angleY_OPU = 0
+        self.angleZ_OPU = 0
+        self.pos_x = 0.0
+        self.pos_y = 0.0
         pass
         
     def drive_forward_on_range(self, rangeX, speed):
